@@ -20,7 +20,7 @@ object M2 {
         added = true; Seq(v +: l, r)
       }
     }
-    val n = r flatMap (add(_))
+    val n = r flatMap add
     if (added) n else Seq(v) +: r
   }
 
@@ -35,6 +35,7 @@ object M2 {
   }
 
   def test(t: Seq[Int]) = {
+    println(t)
     val x = loop(t, Seq.empty[Seq[Int]])
     println(x)
     val y = max(x)
