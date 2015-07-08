@@ -12,7 +12,15 @@ object M2 {
 
   def step(v: Int, r: Seq[Seq[Int]]): Seq[Seq[Int]] = {
     var added = false
-    val n = r map (s => if (v >= s.head) { added = true; v +: s } else s)
+    def add(r: Seq[Int]) = if (v >= r.head) {
+      added = true; Seq(v +: r)
+    } else {
+      val l = r.dropWhile(_ > v)
+      if (l.isEmpty) Seq(r) else {
+        added = true; Seq(v +: l, r)
+      }
+    }
+    val n = r flatMap (add(_))
     if (added) n else Seq(v) +: r
   }
 
@@ -20,7 +28,16 @@ object M2 {
 
   def main(args: Array[String]) = {
     val l = Seq(1, 2, 3, 5, 6, 7, 4, 5, 6, 7, 8, 8, 8, 9, 10, 11, 12, 3, 4)
-    val x = max(loop(l, Seq.empty[Seq[Int]]))
-    println(x.size, x)
+    test(l)
+    println("xxxxxxxx")
+    val l2 = Seq(1, 2, 10, 4, 5)
+    test(l2)
+  }
+
+  def test(t: Seq[Int]) = {
+    val x = loop(t, Seq.empty[Seq[Int]])
+    println(x)
+    val y = max(x)
+    println(y.size, y)
   }
 }
