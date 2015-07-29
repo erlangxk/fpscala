@@ -20,9 +20,10 @@ object P1 {
 
   def main(args: Array[String]): Unit = {
     val x = Service.create()
-    x.start()
-
-    val y = Service.create()
+    val y= x.start()
+    
+    //y.start()
+    //val y = Service.create()
     // compile time error
     // x.stop()
 
