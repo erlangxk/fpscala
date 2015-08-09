@@ -99,25 +99,16 @@ object E31 {
       case _                            => Nil
     }
 
-    def hasSequence[A](l1: List[A], l2: List[A]): Boolean = {
-      def isPrefix[A](a1: List[A], a2: List[A]): Boolean = (a1, a2) match {
-        case (Nil, Nil)                   => true
-        case (Nil, _)                     => false
-        case (_, Nil)                     => true
-        case (Cons(h1, t1), Cons(h2, t2)) => if (h1 == h2) isPrefix(t1, t2) else false
-      }
+    def isPrefix[A](a1: List[A], a2: List[A]): Boolean = (a1, a2) match {
+      case (_, Nil) => true
+      case (Cons(h1, t1), Cons(h2, t2)) if (h1 == h2) => isPrefix(t1, t2)
+      case _ => false
+    }
 
-      def tails[A](l: List[A]): List[List[A]] = l match {
-        case Nil        => List(Nil)
-        case Cons(h, t) => Cons(l, tails(t))
-      }
-
-      def any[A](l: List[A])(f: A => Boolean): Boolean = l match {
-        case Nil        => false
-        case Cons(h, t) => if (f(h)) true else any(t)(f)
-      }
-
-      any(tails(l1))(isPrefix(_, l2))
+    def hasSequence[A](l1: List[A], l2: List[A]): Boolean = l1 match {
+      case Nil                     => l2 == Nil
+      case _ if (isPrefix(l1, l2)) => true
+      case Cons(h1, t1)            => hasSequence(t1, l2)
     }
 
     val l = List(1, 2, 3, 4, 5)
