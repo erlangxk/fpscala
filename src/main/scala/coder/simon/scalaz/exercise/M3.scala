@@ -6,11 +6,12 @@ object M3 {
   val upperY = 3;
 
   def gen(n: (Int, Int)) = {
-    def loop(x: Int, y: Int, result: List[(Int, Int)]): List[(Int, Int)] = {
-      if (x <= upperX && y <= upperY) loop(x + 1, y + 1, (x, y) :: result)
+    def loop(dot: (Int, Int), result: Vector[(Int, Int)]): Vector[(Int, Int)] = {
+      val (x, y) = dot
+      if (x <= upperX && y <= upperY) loop((x + 1, y + 1), result :+ dot)
       else result
     }
-    loop(n._1, n._2, List.empty[(Int, Int)]).reverse
+    loop(n, Vector.empty[(Int, Int)])
   }
 
   def main(args: Array[String]) {
