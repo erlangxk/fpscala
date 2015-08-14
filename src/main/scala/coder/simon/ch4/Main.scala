@@ -38,4 +38,25 @@ object Main {
   case object None extends Option[Nothing]
   case class Some[+A](a: A) extends Option[A]
 
+  def mean(xs: Seq[Double]) = if (xs.isEmpty) None else Some(xs.sum / xs.length)
+
+  def variance(xs: Seq[Double]) = mean(xs) flatMap { m =>
+    mean(xs.map(x => scala.math.pow(x - m, 2)))
+  }
+
+  def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
+
+  def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = a.flatMap(x => b.map(y => f(x, y)))
+
+  def sequence[A](a: List[Option[A]]): Option[List[A]] = a match {
+    case Nil    => None
+    case h :: t => h.flatMap(x => sequence(t).map(l => x :: l))
+  }
+
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = a match {
+    case Nil    => None
+    case h :: t => f(h).flatMap(x => traverse(t)(f).map(l => x :: l))
+  }
+
+  def sequence2[A](a: List[Option[A]]): Option[List[A]] = traverse(a)(identity)
 }
