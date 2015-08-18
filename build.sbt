@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-effect" % scalazVersion,
   "org.scalaz" %% "scalaz-typelevel" % scalazVersion,
   "io.spray" %%  "spray-json" % "1.3.2",
+  "org.uncommons.maths" % "uncommons-maths" % "1.2.2" exclude("jfree","jfreechart"),
   "org.scalacheck" %% "scalacheck" % "1.12.4" % "test"
   )
   
