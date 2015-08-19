@@ -17,7 +17,7 @@ trait State[S, +A] { self =>
     }
   }
 
-  def get = new State[S, S] {
+  def get: State[S, S] = new State[S, S] {
     def run = s => (s, s)
   }
   def set(ns: S) = new State[S, Unit] {
@@ -57,25 +57,27 @@ object MX {
 
   case class Machine(locked: Boolean, coins: Int, candies: Int)
 
-  def action(input: Input): State[Machine, (Int, Int)] = State { machine =>
-    (input, machine) match {
-      case (Coin, Machine(true, m, n)) if n > 0  => ((m + 1, n), Machine(false, m + 1, n))
-      case (Turn, Machine(false, m, n)) if n > 0 => ((m, n - 1), Machine(true, m, n - 1))
-      case _                                     => ((machine.coins, machine.candies), machine)
-    }
+  def action(input: Input): State[Machine, Unit] = State { machine =>
+    ((), (input, machine) match {
+      case (Coin, Machine(true, m, n)) if n > 0 =>
+        Machine(false, m + 1, n)
+      case (Turn, Machine(false, m, n)) if n > 0 =>
+        Machine(true, m, n - 1)
+      case _ => machine
+    })
   }
 
   def add(v: Int): State[Int, Int] = State { x => (x, x + v) }
 
-  def simulateMachine(inputs: List[Input]): State[Machine, List[(Int, Int)]] = {
-    val x = inputs.map(action)
-    State.sequence(x)
+  def runx(inputs: List[Input]) = {
+    val xs = inputs.map(action)
+    State.sequence(xs)
   }
 
   def main(args: Array[String]): Unit = {
-    val init = Machine(false, 7, 9)
-    val actions = List(Coin, Turn, Coin, Turn, Coin)
-    val (p, m) = simulateMachine(actions).run(init)
+    val init = Machine(false, 17, 91)
+    val actions = List(Coin, Turn, Coin, Turn, Coin, Turn, Coin)
+    val (p, m) = runx(actions).run(init)
     println(p)
     println(m)
 
