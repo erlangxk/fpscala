@@ -1,27 +1,22 @@
 package coder.simon.scalaz.mt
 import scala.language.implicitConversions
 
-trait TruthyOps[A] {
-  def value: A
-  def f: CanTruthy[A]
-  final def truthy: Boolean = f.truthys(value)
-}
-
 trait CanTruthy[A] {
   def truthys(a: A): Boolean
 }
 
 object CanTruthy {
 
-  def apply[A](f: A => Boolean): CanTruthy[A] = new CanTruthy[A] {
-    override def truthys(a: A) = f(a)
+  implicit val IntTruthy = new CanTruthy[Int] {
+    def truthys(a: Int) = if (a == 0) true else false
   }
 
-  implicit val IntTruthy = apply[Int]((a) => if (a == 0) false else true)
+  implicit val StringTruthy = new CanTruthy[String] {
+    def truthys(s: String) = if (s.length == 0) false else true
+  }
 
-  implicit def toTruthy[A](v: A)(implicit ev: CanTruthy[A]) = new TruthyOps[A] {
-    val value = v
-    val f = ev
+  implicit class ToTruthy[A: CanTruthy](v: A) {
+    final def truthy: Boolean = implicitly[CanTruthy[A]].truthys(v)
   }
 }
 
@@ -30,5 +25,8 @@ object Main {
   def main(args: Array[String]): Unit = {
     println(0.truthy)
     println(100.truthy)
+    
+    println("".truthy)
+    println("abc".truthy)
   }
 }
