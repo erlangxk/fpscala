@@ -3,7 +3,6 @@ import scalaz._
 import Scalaz._
 
 object M3 {
-
   val upperX = 3;
   val upperY = 3;
 
@@ -26,12 +25,9 @@ object M3 {
     for (p <- path) {
       println(p)
     }
-
     val path2 = l map gen2
     for (p <- path2) {
       println(p.toList)
     }
-
   }
-
 }
