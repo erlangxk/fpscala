@@ -1,6 +1,4 @@
 package coder.simon.scalaz.exercise
-import scalaz._
-import Scalaz._
 
 object M3 {
 
