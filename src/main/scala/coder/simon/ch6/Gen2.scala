@@ -55,6 +55,8 @@ object Gen2 {
     case h :: t => map2(h, sequence(t))(_ :: _)
   }
 
+  def sequence2[A](fs: List[Rand[A]]): Rand[List[A]] = fs.foldRight(unit(Nil: List[A]))((e, acc) => map2(e, acc)(_ :: _))
+
   def nonNegtiveLessThan(n: Int): Rand[Int] = rng => {
     val (i, rng2) = nonNegativeRand(rng)
     val mod = i % n
@@ -69,8 +71,8 @@ object Gen2 {
   }
 
   def rollDie: Rand[Int] = map(nonNegtiveLessThan2(6))(_ + 1)
-  
-case class SimpleRNG(seed: Long) extends RNG {
+
+  case class SimpleRNG(seed: Long) extends RNG {
     def nextInt: (Int, RNG) = {
       val newSeed = (seed * 0x5DEECE66DL + 0xBL) & 0xFFFFFFFFFFFFL
       val nextRNG = SimpleRNG(newSeed)
