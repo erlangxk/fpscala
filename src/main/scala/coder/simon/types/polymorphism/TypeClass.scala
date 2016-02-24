@@ -20,4 +20,10 @@ object TypeClass extends App {
 
   println(Arithmetics.add("abc", "xyz"))
 
+  
+  def gen(i:Int):Stream[Int] = Stream(i) ++ gen(i+1)
+  println(gen(0).take(10).to[List])
+  
+  def gen2(i:Int):Stream[Int] = Stream(i) append gen2(i+1)
+  println(gen2(0).take(10).to[List])
 }
