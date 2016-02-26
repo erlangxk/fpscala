@@ -28,7 +28,6 @@ object P3 {
     Dinner.start.cookSalad.cookCake.serve()
 
     val x = Dinner.start.cookSoup.cookSteak.cookCake
-
     x.serve2()
 
   }
