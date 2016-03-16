@@ -7,7 +7,7 @@ lazy val root = (project in file(".")).
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
 
-val scalazVersion = "7.1.5"
+val scalazVersion = "7.2.0"
 
 libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % scalazVersion,
