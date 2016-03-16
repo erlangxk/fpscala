@@ -8,17 +8,17 @@ object M1 extends App {
     def add(a1: A, a2: A): A
   }
 
-  def plus[A: Plus](a1: A, a2: A): A = {
-    val plus = implicitly[Plus[A]]
-    plus.add(a1, a2)
-  }
+//  def plus[A: Plus](a1: A, a2: A): A = {
+//    val plus = implicitly[Plus[A]]
+//    plus.add(a1, a2)
+//  }
 
   trait PlusOps[A] {
     def add(a: A): A
   }
 
-  implicit def toPlus[A: Plus](a: A): PlusOps[A] = new PlusOps[A] {
-    def add(b: A): A = plus(a, b)
+  implicit def toPlus[A](a: A)(implicit plus:Plus[A]): PlusOps[A] = new PlusOps[A] {
+    def add(b: A): A = plus.add(a, b)
   }
 
   implicit def plusString: Plus[String] = new Plus[String] {
@@ -30,7 +30,7 @@ object M1 extends App {
   }
 
   println("aaa".add("bbb"))
-  println(plus("aaa", "bbb"))
+  //println(plus("aaa", "bbb"))
 
   println(3.toString.add("4"))
 }
