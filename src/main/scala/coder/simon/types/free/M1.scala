@@ -22,7 +22,7 @@ object M1 extends App {
       case Return(a)    => f(a)
       case Suspend(ffa) => Suspend[F, B](functor.map(ffa)(fa => fa flatMap f))
     }
-    
+
     def map[B](f: A => B)(implicit functor: Functor[F]) = flatMap(x => Return[F, B](f(x)))
 
     def join(ffa: F[Free[F, A]]): Free[F, A] = Suspend[F, A](ffa)
