@@ -1,12 +1,24 @@
 package coder.simon.types.adhocpolymophism
 
 import scala.language.higherKinds
+import scala.language.implicitConversions 
 
 object M2 extends App {
 
   trait Monoid[A] {
     def mappend(a: A, b: A): A
     def mzero: A
+  }
+
+  trait MonoidOp[A] {
+    val F: Monoid[A]
+    val value: A
+    def |+|(a2: A) = F.mappend(value, a2)
+  }
+  
+  implicit def toMonoidOp[A:Monoid](a:A):MonoidOp[A]=new MonoidOp[A]{
+    val F=implicitly[Monoid[A]]
+    val value=a
   }
 
   implicit object intMonoid extends Monoid[Int] {
@@ -18,6 +30,8 @@ object M2 extends App {
     def mappend(a: String, b: String): String = a + b
     def mzero = ""
   }
+  
+  println(3 |+| 4)
 
   println(sum(List(1, 2, 3, 4, 5)))
   println(sum(List(1, 2, 3, 4, 5).map(_.toString)))
