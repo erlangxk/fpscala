@@ -7,8 +7,8 @@ object M1 {
 
   sealed trait WsResult[+A]
 
-  case class WsResultOk[A](trxId: A) extends WsResult[A]
-  case class WsResultErr(errorCode: Int) extends WsResult[Nothing]
+  final case class WsResultOk[A](trxId: A) extends WsResult[A]
+  final case class WsResultErr(errorCode: Int) extends WsResult[Nothing]
 
   implicit val wsresultmonad = new Monad[WsResult] {
 
@@ -20,10 +20,13 @@ object M1 {
 
   }
 
-  def main(args: Array[String]) = {
-    val w1 = WsResultOk("123")
-    val w2 = WsResultOk("234")
-    //TODO how to turn own class as monad
+  def main(args: Array[String]): Unit = {
+    val w1 = Monad[WsResult].point("123")
+    val w2 = Monad[WsResult].point("234")
+    for {
+      a1 <- w1
+      a2 <- w2
+    } yield a1 + a2
   }
 
 }
