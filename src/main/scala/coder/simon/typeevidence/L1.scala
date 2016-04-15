@@ -19,5 +19,8 @@ object L1 extends App {
   
   println(Foo(3).square)
   
+  val x=implicitly[List[Int] <~< List[Int]]
+   
+  
 
 }
