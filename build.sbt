@@ -11,13 +11,11 @@ val scalazVersion = "7.2.0"
 
 libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % scalazVersion,
-  "org.scalaz" %% "scalaz-effect" % scalazVersion,
-  "org.scalaz" %% "scalaz-typelevel" % scalazVersion,
   "io.spray" %%  "spray-json" % "1.3.2",
   "io.gatling.uncommons.maths" % "uncommons-maths" % "1.2.3",
   "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
-  "org.scalatest" %% "scalatest" % "2.2.5" % "test"
-  )
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+)
   
 initialCommands in console := "import scalaz._, Scalaz._"
 fork in run := true
