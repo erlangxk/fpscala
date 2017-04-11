@@ -16,11 +16,14 @@ object M3 extends App {
       if (abs(right + n - left) < 4)
         copy(right = right + n).some else none
   }
-  
-  def landLeft(n:Birds)(p:Pole):Option[Pole]=p.landLeft(n)
-  def landRight(n:Birds)(p:Pole):Option[Pole]=p.landRight(n)
-  
-  val x=Kleisli(landLeft(2)) >==> landRight(2) >==> landRight(2) >==>landRight(2)
-  println(x(Pole(0,0)))
 
+  def landLeft(n: Birds)(p: Pole): Option[Pole] = p.landLeft(n)
+  def landRight(n: Birds)(p: Pole): Option[Pole] = p.landRight(n)
+
+  val x = Kleisli(landLeft(2)) >==> landRight(2) >==> landRight(2) >==> landRight(2)
+  println(x(Pole(0, 0)))
+
+  (Monad[Option].point(3) >>= { x => (x + 100000).some }) assert_=== (3 |> { x => (x + 100000).some })
+  
+  ("move on up".some flatMap {Monad[Option].point(_)}) assert_=== "move on up".some
 }

@@ -30,7 +30,6 @@ object K1 {
     println(y(3))
     println(y2(3))
     
-
   }
 
 }
