@@ -2,7 +2,7 @@ lazy val root = (project in file(".")).
 	settings(
 		name := "fpscala",
 		version := "0.9",
-		scalaVersion := "2.11.7"
+		scalaVersion := "2.11.11"
 	)
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % scalazVersion,
   "io.spray" %%  "spray-json" % "1.3.2",
   "io.gatling.uncommons.maths" % "uncommons-maths" % "1.2.3",
-  "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.6" % "test",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 )
   
